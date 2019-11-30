@@ -1,0 +1,19 @@
+{
+  "name": "openfin-simple-fdc3-demo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start1": "openfin -l -c tester1.openfin.json",
+    "start2": "openfin -l -c tester2.openfin.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "openfin-fdc3": "^0.2.0"
+  },
+  "devDependencies": {
+    "openfin-cli": "^2.0.12",
+    "typescript": "^3.7.2"
+  }
+}

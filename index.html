@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple OpenFin Tester</title>
+    <style>
+    </style>
+  </head>
+  <body>
+    <h1>FDC3</h1>
+    <div>
+      <h2>Set Context</h2>
+      <button type="button">AAPL</button>
+      <button type="button">ASSAB</button>
+      <button type="button">FB</button>
+      <button type="button">MSFT</button>
+      <div>
+        <pre><code id="fdc3-send"></code></pre>
+      </div>
+    </div>
+    <div>
+      <h2>Receive Context</h2>
+      <div>
+        <div id="fdc3-rcv-status"></div>
+        <pre><code id="fdc3-rcv"></code></pre>
+      </div>
+      <div>
+        <pre><code id="console"></code></pre>
+      </div>
+    </div>
+
+    <script src="node_modules/openfin-fdc3/dist/client/openfin-fdc3.js"></script>
+    <script>
+      function handleContext(ctx) {
+        document.querySelector('#fdc3-rcv').innerHTML = JSON.stringify(ctx, null, 2);
+      }
+      function receiveRegistered(listener) {
+        document.querySelector('#fdc3-rcv-status').innerHTML = 'Registered Listener successfully';
+        console.log('fdc3 context listener', listener);
+      }
+      function receiveFailed(error) {
+        if (error instanceof Error) {
+          error = error.toString();
+        }
+        const json = JSON.stringify(error, null, 2);
+        document.querySelector('#fdc3-rcv-status').innerHTML = 'Listener Registration failed<br>'+json;
+        console.log('fdc3 context error', error);
+      }
+      try {
+        const listener = fdc3.addContextListener(handleContext)
+        receiveRegistered(listener);
+      } catch (e) {
+        receiveFailed(e);
+      }
+
+      const contextById = {
+        'AAPL': {
+          type: 'fdc3.instrument',
+          name: 'Apple Inc.',
+          exchange: 'US',
+          id: {
+            ticker: 'AAPL',
+            ISIN: ''
+          }
+        },
+        'ASSAB': {
+          type: 'fdc3.instrument',
+          name: 'Assa Abloy AB.',
+          exchange: 'SS',
+          id: {
+            ticker: 'ASSAB',
+            ISIN: ''
+          }
+        },
+        'FB': {
+          type: 'fdc3.instrument',
+          name: 'Facebook Inc.',
+          exchange: 'US',
+          id: {
+            ticker: 'FB',
+            ISIN: ''
+          }
+        },
+        'MSFT': {
+          type: 'fdc3.instrument',
+          name: 'Microsoft Inc.',
+          exchange: 'US',
+          id: {
+            ticker: 'MSFT',
+            ISIN: ''
+          }
+        }
+      }
+
+      function showError(e) {
+        document.querySelector('#fdc3-send').innerHTML = 'Failure: <b>'+JSON.stringify(e, null, 2);
+      }
+      function showSuccess(x) {
+        document.querySelector('#fdc3-send').innerHTML = 'Success: <b>'+JSON.stringify(x, null, 2);
+      }
+
+      function sendContext(ev) {
+        const button = ev.currentTarget;
+        const id = button.firstChild.textContent.trim();
+        const context = contextById[id];
+        try {
+          fdc3.broadcast(context)
+              .then(showSuccess)
+              .catch(showError);
+        } catch (e) {
+          showError(e);
+        }
+      }
+
+      function print(x) {
+        if (typeof x === 'string') {
+          return x;
+        }
+        return JSON.stringify(x, print, 2);
+      }
+
+      function print(x) {
+        if (typeof x === 'string') {
+          return x;
+        } else if (x instanceof Error) {
+          return `Error: ${x.name} ${x.message} at ${x.stack.join(' ')}`;
+        } else {
+          return JSON.stringify(x, null, 2);
+        }
+      }
+
+      function consoleLog(level, msg, ...args) {
+        const now = new Date();
+        const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.:${now.getMilliseconds()}`;
+        const html = [
+          `<code>${timestamp}<pre class="log-${level}">`,
+            msg,
+            ...args.map(print),
+          '</pre></code>'
+        ].join('\n');
+        const con = document.querySelector('#console');
+
+        con.innerHTML = html + con.innerHTML;
+      }
+
+      for (let m of "log,error,warn,info".split(',')) {
+        console[m] = consoleLog;
+      }
+
+      </script>
+  </body>
+</html>

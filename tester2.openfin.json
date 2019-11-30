@@ -1,0 +1,29 @@
+{
+    "licenseKey": "none",
+    "runtime": {
+        "version": "community",
+        "forceLatest": true
+    },
+    "supportInformation": {
+        "company": "hn3000",
+        "product": "Simple OpenFin FDC3 tester",
+        "url": "github.com/hn3000/simple-openfin-fdc3-demo"
+    },
+    "startup_app": {
+        "name": "OpenFin FDC3 tester (2)",
+        "uuid": "hn3000.openfin.fdc3.tester2",
+        "url": "http://localhost/openfin-fdc3-demo/",
+        "autoShow": true,
+        "defaultHeight": 500,
+        "defaultWidth": 500,
+        "defaultTop": 25,
+        "defaultLeft": 50
+    },
+    "devtools_port": 9990,
+    "shortcut": {},
+    "services": [
+        {
+            "name": "fdc3"
+        }
+    ]
+}
