@@ -28,7 +28,9 @@
       </div>
     </div>
 
-    <script src="node_modules/openfin-fdc3/dist/client/openfin-fdc3.js"></script>
+    <!-- <script src="node_modules/openfin-fdc3/dist/client/openfin-fdc3.js"></script> -->
+    <script src="https://cdn.openfin.co/services/openfin/fdc3/0.2.0/openfin-fdc3.js">
+    </script>
     <script>
       function handleContext(ctx) {
         document.querySelector('#fdc3-rcv').innerHTML = JSON.stringify(ctx, null, 2);
