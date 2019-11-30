@@ -106,7 +106,7 @@
         if (typeof it === 'string') {
           return it;
         }
-        const button = ev.currentTarget;
+        const button = it.currentTarget;
         const id = button.firstChild.textContent.trim();
         return id;
       }
