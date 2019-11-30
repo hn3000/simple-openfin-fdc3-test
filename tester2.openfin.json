@@ -12,7 +12,7 @@
     "startup_app": {
         "name": "OpenFin FDC3 tester (2)",
         "uuid": "hn3000.openfin.fdc3.tester2",
-        "url": "https://hn3000.github.io/openfin-fdc3-test/",
+        "url": "https://hn3000.github.io/simple-openfin-fdc3-test/",
         "autoShow": true,
         "defaultHeight": 500,
         "defaultWidth": 500,
