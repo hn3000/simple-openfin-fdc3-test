@@ -4,7 +4,9 @@
   "description": "",
   "scripts": {
     "start1": "openfin -l -c tester1.openfin.json",
-    "start2": "openfin -l -c tester2.openfin.json"
+    "start2": "openfin -l -c tester2.openfin.json",
+    "start1L": "openfin -l -c tester1.local.openfin.json",
+    "start2L": "openfin -l -c tester2.local.openfin.json"
   },
   "keywords": [],
   "author": "",

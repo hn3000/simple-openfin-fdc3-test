@@ -3,6 +3,11 @@
   <head>
     <title>Simple OpenFin Tester</title>
     <style>
+      pre { margin: 0; margin-top: 5px; }
+      .log-warn { background: #dd33; }
+      .log-error { background: #e333; }
+      .log-debug { color: #333c  }
+      h1, h2 { font: sans-serif; margin-bottom: 0.25em; }
     </style>
   </head>
   <body>
@@ -23,11 +28,14 @@
         <div id="fdc3-rcv-status"></div>
         <pre><code id="fdc3-rcv"></code></pre>
       </div>
+    </div>
+    <div>
+      <h2>Console message</h2>
+      <small>in reverse chronological order</small>
       <div>
         <pre><code id="console"></code></pre>
       </div>
     </div>
-
     <!-- <script src="node_modules/openfin-fdc3/dist/client/openfin-fdc3.js"></script> -->
     <script 
       src="https://cdn.openfin.co/services/openfin/fdc3/0.2.0/openfin-fdc3.js"
@@ -144,20 +152,21 @@
 
       function consoleLog(level, msg, ...args) {
         const now = new Date();
-        const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.:${now.getMilliseconds()}`;
+        const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}:${now.getMilliseconds()}`;
         const html = [
-          `<code>${timestamp}<pre class="log-${level}">`,
+          `<pre class="log-${level}">${timestamp}`,
             msg,
             ...args.map(print),
-          '</pre></code>'
-        ].join('\n');
+          '</pre>'
+        ].join(' ');
         const con = document.querySelector('#console');
 
         con.innerHTML = html + con.innerHTML;
       }
 
-      for (let m of "log,error,warn,info".split(',')) {
-        console[m] = consoleLog;
+      for (let m of "log,error,warn,info,debug".split(',')) {
+        console[m] = consoleLog.bind(null, m);
+        console[m]('replaced console.'+m);
       }
 
       </script>
